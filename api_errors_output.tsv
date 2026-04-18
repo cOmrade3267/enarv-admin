@@ -1,0 +1,63 @@
+GET	/	200	Enarv API is running!
+GET	/admin/dashboard	200	{"metrics":{"users":{"total":56,"today":0},"engagement":{"posts_today":0,"comments_today":0},"clubs":{"total":13,"active":11},"store":{"orders_today":0,"revenue_today":0},"referrals":{"today":0}},"recent_activity":{"signups":[{"username":"jdndn4718","created_at":"2026-04-13T04:42:09.180Z"},{"usernam
+GET	/admin/users?limit=5&offset=0	200	[{"user_id":"tJ1VY8QXwlU1gN6mdaqKHza2rcs2","username":"jdndn4718","full_name":"Jdndn","email":"jdndn4718@gmail.com","created_at":"2026-04-13T04:42:09.180Z","followers_count":0,"following_count":0,"account_status":"active"},{"user_id":"c1tMeTuLYreIYzIxiOyB9QVyK992","username":"mitulchowdhury042006","
+PATCH	/admin/users/test-id/status	400	Invalid status
+DELETE	/admin/users/test-id	404	User not found
+GET	/admin/reports?limit=5&offset=0	200	[]
+PATCH	/admin/reports/test-id	400	Invalid status provided.
+POST	/admin/notifications/send	400	Invalid target group parameters.
+GET	/admin/settings	200	{"story_duration_hours":24,"min_order_value_for_discount":50000,"max_discount_percentage":50,"chat_history_retention_days":30,"referral_system_active":true}
+POST	/admin/settings	400	Setting key and value are required
+POST	/admin/kill-switch	ERROR	The operation was aborted due to timeout
+DELETE	/admin/posts/test-id	404	Post not found.
+DELETE	/admin/books/test-id	404	Book not found.
+DELETE	/admin/clubs/test-id	404	Club not found.
+GET	/feed?tab=for-you&limit=5	200	{"posts":[{"id":"e6b699ab-22ae-48b2-9d9f-2f3a56a0534f","user_id":"hEMJEEY20fQH3tx4dePpj8i8j3v1","club_id":"6f5c72bf-c924-4651-9719-d1ce8a175f72","title":"Title","content":"One idea that stayed with me… hdhd","media":[],"likes_count":0,"comments_count":3,"created_at":"2026-04-09T10:08:30.712Z","updat
+GET	/posts/test-id	404	Post not found
+DELETE	/posts/test-id	404	Post not found or you do not have permission to delete it
+GET	/stories/feed	200	[]
+GET	/stories/me	200	[]
+DELETE	/stories/test-id	404	Story not found or you do not have permission to delete it.
+GET	/blogs	200	[{"id":"ba280a84-ac11-4509-a9c6-7c377f4718ee","title":"Celebrating 100 Blogs on Medium and 10 Books","category":"test","cover_url":"https://miro.medium.com/v2/resize:fit:828/format:webp/1*biEymy40k_CUFRxbsAuzQA.png","read_time_minutes":2,"created_at":"2026-02-23T13:49:08.667Z"},{"id":"2f7f1f3f-045f-
+POST	/blogs	400	{"errors":["\"title\" is required"]}
+PATCH	/blogs/test-id	200	
+DELETE	/blogs/test-id	204	
+GET	/blogs/admin/upload-url	500	Error generating upload URL
+GET	/deals/current	200	[]
+POST	/deals	400	{"errors":["\"bookId\" is required"]}
+DELETE	/deals/test-id	204	
+GET	/support/admin?limit=5	200	[{"id":"62a2d6ce-2f33-48b2-8775-7458efb211a0","user_id":"s8PTKVOj7Yhe64MkaLiOUxMWEBB2","category":"account","description":"help me !!!!!!!","related_order_id":"","status":"closed","admin_response":null,"created_at":"2026-03-09T16:48:40.205Z","updated_at":"2026-04-13T18:42:42.449Z","username":"google
+PATCH	/support/admin/test-id	400	{"errors":["\"status\" is required"]}
+GET	/clubs?limit=5	200	[{"id":"db5d444d-dc05-4772-b3cb-fc43d257646b","name":"test","slug":"test","description":"test","banner_url":null,"members_count":1,"privacy":"public","is_member":true},{"id":"8632a07c-38e8-4710-a890-0c8025f6ccbe","name":"CyberSpace","slug":"cyberspace","description":"all are invited!!","banner_url":
+GET	/clubs/test-club	404	Club not found
+POST	/clubs	400	{"errors":["\"name\" is required"]}
+PATCH	/clubs/test-id	403	Forbidden: You do not have the required permissions for this action.
+DELETE	/clubs/test-id/members/test-user	403	Forbidden: You do not have the required permissions for this action.
+GET	/clubs/test-id/members	404	Club not found.
+GET	/clubs/test-id/posts	404	Club not found.
+GET	/books?limit=5&offset=0	200	[{"id":"00d384c7-fa2b-41c4-83de-d511b04f4317","title":"Ram - Ikshvakuna Vanshaj","cover_url":"https://ui-avatars.com/api/?name=Ram%20-%20Ikshvakuna%20Vanshaj&background=random&size=512","price_mrp":39900,"price_discount":0,"average_rating":3,"stock_quantity":50,"ratings_count":2,"authors":[{"id":"a7
+GET	/books/test-id	404	Book not found
+PATCH	/books/test-id	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /books/test-id</pre> </body> </html>
+POST	/books	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot POST /books</pre> </body> </html>
+POST	/admin/books/bulk	200	{"total_processed":0,"successful":[],"failed":[]}
+PATCH	/books/test-id/stock	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /books/test-id/stock</pre> </body> </html>
+POST	/books/bulk-upload	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot POST /books/bulk-upload</pre> </body> </html>
+GET	/orders?limit=5	200	[]
+GET	/admin/orders?limit=5	200	[{"id":"172d7fc0-169d-4dda-9c4a-2ce9b1e73133","user_id":"OeArSOzmvVX1JQBkI0JJBMLYLdl1","razorpay_order_id":"order_SckuuxwngDq22P","razorpay_payment_id":"pay_SckvOj4YXCCDfI","razorpay_signature":"adbb7b7a06215a5a31edb50e2a118073a512eb751a608abd4e06fb70bfe90b57","status":"shipped","amount":99900,"curr
+GET	/orders/test-id	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot GET /orders/test-id</pre> </body> </html>
+PATCH	/orders/test-id/status	400	Invalid status
+GET	/wallet	200	{"user_id":"5aYo7wVCxIg4cgfNvL8NK25H8jg1","balance":0,"currency":"INR","updated_at":"2026-04-15T17:37:45.806Z","transactions":[]}
+POST	/wallet/admin/credit	400	{"errors":["\"userId\" is required"]}
+POST	/wallet/admin/deduct	400	{"errors":["\"userId\" is required"]}
+GET	/notifications	200	[{"id":"6e6b3a1b-f753-4762-a725-c2431a429f15","user_id":"5aYo7wVCxIg4cgfNvL8NK25H8jg1","type":"admin_announcement","payload":{"body":"m","title":"t"},"is_read":false,"created_at":"2026-04-15T06:16:54.427Z"},{"id":"2ecb0592-221a-4b80-974b-8ca56390f3cb","user_id":"5aYo7wVCxIg4cgfNvL8NK25H8jg1","type":
+GET	/admin/notifications/history	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot GET /admin/notifications/history</pre> </body> </html>
+GET	/admin/featured-authors	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot GET /admin/featured-authors</pre> </body> </html>
+POST	/admin/featured-authors	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot POST /admin/featured-authors</pre> </body> </html>
+DELETE	/admin/featured-authors/test-id	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot DELETE /admin/featured-authors/test-id</pre> </body> </html>
+PATCH	/admin/users/test-id/permissions	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /admin/users/test-id/permissions</pre> </body> </html>
+PATCH	/admin/users/test-id/role	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /admin/users/test-id/role</pre> </body> </html>
+PATCH	/admin/users/test-id	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /admin/users/test-id</pre> </body> </html>
+PATCH	/clubs/test-id/status	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /clubs/test-id/status</pre> </body> </html>
+PATCH	/clubs/test-id/posts/test-post/pin	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /clubs/test-id/posts/test-post/pin</pre> </body> </html>
+PATCH	/clubs/test-id/posts/test-post/highlight	404	<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <title>Error</title> </head> <body> <pre>Cannot PATCH /clubs/test-id/posts/test-post/highlight</pre> </body> </html>
+GET	/search/global?q=test	200	{"authors":[],"books":[{"id":"ef165770-fa2d-4def-902b-fc0e08ff6aad","title":"Twisted Love #1","cover_url":"https://ui-avatars.com/api/?name=Twisted%20Love%20%231&background=random&size=512","price_mrp":49900,"price_discount":0,"average_rating":0,"stock_quantity":50,"ratings_count":0,"authors":[{"id"

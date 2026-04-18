@@ -28,6 +28,12 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# nested backend clone (separate repo)
+/enarv-backend/
+
+# Local API test script (contains credentials — never commit)
+test_functionality.mjs
+
 # vercel
 .vercel
 

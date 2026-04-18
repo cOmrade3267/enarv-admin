@@ -1,0 +1,13 @@
+PATCH	/books/0075195d-f923-401a-99f5-a20b05feab60	404
+PATCH	/books/0075195d-f923-401a-99f5-a20b05feab60/stock	404
+POST	/books	404
+POST	/books/bulk-upload	404
+PATCH	/admin/users/tJ1VY8QXwlU1gN6mdaqKHza2rcs2/permissions	404
+PATCH	/admin/users/tJ1VY8QXwlU1gN6mdaqKHza2rcs2/role	404
+PATCH	/admin/users/tJ1VY8QXwlU1gN6mdaqKHza2rcs2	404
+GET	/admin/featured-authors	404
+POST	/admin/featured-authors	404
+DELETE	/admin/featured-authors/test-id	404
+GET	/admin/notifications/history	404
+GET	/orders/172d7fc0-169d-4dda-9c4a-2ce9b1e73133	404
+GET	/clubs?limit=1	200
