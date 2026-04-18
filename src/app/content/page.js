@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DataTable from '@/components/DataTable';
 import StatusBadge from '@/components/StatusBadge';
 import Modal from '@/components/Modal';
@@ -52,11 +52,7 @@ export default function ContentPage() {
   const [addAuthorModal, setAddAuthorModal] = useState(false);
   const [authorForm, setAuthorForm] = useState({ name: '', bio: '', image_url: '' });
 
-  useEffect(() => {
-    loadAll();
-  }, []);
-
-  async function loadAll() {
+  const loadAll = useCallback(async () => {
     setLoading(true);
     try {
       const [b, o, fa] = await Promise.all([
@@ -78,7 +74,11 @@ export default function ContentPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [showToast]);
+
+  useEffect(() => {
+    loadAll();
+  }, [loadAll]);
 
   // --- Blogs ---
   function openCreateBlog() {

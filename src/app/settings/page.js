@@ -65,7 +65,7 @@ export default function SettingsPage() {
         );
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [showToast]);
 
   async function handleSave(e) {
     e.preventDefault();

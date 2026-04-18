@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DataTable from '@/components/DataTable';
 import StatusBadge from '@/components/StatusBadge';
 import Modal from '@/components/Modal';
@@ -16,8 +16,6 @@ export default function ModerationPage() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [confirmAction, setConfirmAction] = useState(null);
-
-  useEffect(() => { loadData(); }, []);
 
   function pickArray(payload, keys = []) {
     if (Array.isArray(payload)) return payload;
@@ -36,7 +34,7 @@ export default function ModerationPage() {
     return [];
   }
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const [postsRes, commentsRes, storiesRes, myStoriesRes, reportsRes] = await Promise.allSettled([
@@ -130,7 +128,9 @@ export default function ModerationPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [showToast]);
+
+  useEffect(() => { loadData(); }, [loadData]);
 
   async function handleAction() {
     if (!confirmAction) return;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DataTable from '@/components/DataTable';
 import StatusBadge from '@/components/StatusBadge';
 import Modal from '@/components/Modal';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 const columns = [
   { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' } },
   { header: 'Name', render: (row) => (
-    <Link href={`/users/${row.id}`} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+    <Link href={`/users/detail?id=${encodeURIComponent(row.id)}`} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
       {row.full_name}
     </Link>
   )},
@@ -43,19 +43,15 @@ export default function UsersPage() {
   const [selectedRole, setSelectedRole] = useState('user');
   const PAGE_SIZE = 50;
 
-  useEffect(() => {
-    loadUsers();
-  }, [page, search]);
-
-  function buildUsersParams() {
+  const buildUsersParams = useCallback(() => {
     const params = new URLSearchParams();
     params.set('limit', String(PAGE_SIZE));
     params.set('offset', String((page - 1) * PAGE_SIZE));
     if (search.trim()) params.set('q', search.trim().replace(/^@/, ''));
     return params.toString();
-  }
+  }, [PAGE_SIZE, page, search]);
 
-  async function loadUsers() {
+  const loadUsers = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -85,7 +81,11 @@ export default function UsersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [buildUsersParams, search, showToast]);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   async function handleAction(userId, action) {
     try {
@@ -172,7 +172,7 @@ export default function UsersPage() {
         actions={(row) => (
           <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             {row.id ? (
-              <Link href={`/users/${row.id}`} className="btn btn-ghost btn-sm">View</Link>
+              <Link href={`/users/detail?id=${encodeURIComponent(row.id)}`} className="btn btn-ghost btn-sm">View</Link>
             ) : (
               <span className="btn btn-ghost btn-sm" style={{ opacity: 0.5, pointerEvents: 'none' }}>View</span>
             )}

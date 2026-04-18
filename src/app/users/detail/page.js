@@ -1,23 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { Suspense, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import StatusBadge from '@/components/StatusBadge';
 import DataTable from '@/components/DataTable';
 import { adminApi } from '@/lib/api';
 
-export default function UserDetailPage() {
-  const params = useParams();
+function UserDetailContent() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('id');
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('posts');
 
   useEffect(() => {
     async function load() {
+      if (!userId) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
       try {
-        const usersRes = await adminApi.getUsers(`limit=500`).catch(() => null);
+        const usersRes = await adminApi.getUsers('limit=500').catch(() => null);
         const users = usersRes?.users || (Array.isArray(usersRes) ? usersRes : []);
-        let userData = users.find((u) => (u.id || u.user_id) === params.id);
+        let userData = users.find((u) => (u.id || u.user_id) === userId);
         if (!userData) {
           setUser(null);
           return;
@@ -47,7 +53,7 @@ export default function UserDetailPage() {
       }
     }
     load();
-  }, [params.id]);
+  }, [userId]);
 
   if (loading) return <div className="loading-page"><div className="loading-spinner" /></div>;
   if (!user) return <div className="empty-state"><div className="empty-state-text">User not found</div></div>;
@@ -95,5 +101,13 @@ export default function UserDetailPage() {
 
       {activeTab === 'referrals' && <div className="card"><div className="card-header"><h3 className="card-title">Referral Stats</h3></div><div style={{ display: 'flex', gap: 'var(--space-8)', padding: 'var(--space-4)' }}><div className="user-stat"><div className="user-stat-value">{user.referral_count || 0}</div><div className="user-stat-label">Total Referrals</div></div></div></div>}
     </div>
+  );
+}
+
+export default function UserDetailPage() {
+  return (
+    <Suspense fallback={<div className="loading-page"><div className="loading-spinner" /></div>}>
+      <UserDetailContent />
+    </Suspense>
   );
 }

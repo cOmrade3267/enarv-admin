@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DataTable from '@/components/DataTable';
 import StatusBadge from '@/components/StatusBadge';
 import Modal from '@/components/Modal';
@@ -273,9 +273,7 @@ export default function OrdersPage() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [statusModal, setStatusModal] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('');
-  useEffect(() => { loadOrders(); }, []);
-
-  async function loadOrders() {
+  const loadOrders = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch users in parallel to resolve user_id → username
@@ -346,7 +344,9 @@ export default function OrdersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [showToast]);
+
+  useEffect(() => { loadOrders(); }, [loadOrders]);
 
   async function handleStatusUpdate() {
     if (!statusModal || !selectedStatus) return;

@@ -34,6 +34,21 @@ yarn-error.log*
 # Local API test script (contains credentials — never commit)
 test_functionality.mjs
 
+# API sweep / diagnostics outputs & generators (not part of the app)
+api_errors_output.tsv
+api_sweep*.tsv
+api_valid_id_retest.tsv
+api_backend_*.tsv
+api_backend_*.md
+backend_handoff_note.md
+health_monitor.tsv
+fetch_errors.mjs
+generate_api_backend_report.mjs
+generate_backend_handoff_note.mjs
+
+# Cached API response snippets (local only)
+token_*_body.json
+
 # vercel
 .vercel
 

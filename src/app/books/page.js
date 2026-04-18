@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import DataTable from '@/components/DataTable';
 import Modal from '@/components/Modal';
 import { useToast } from '@/components/Toast';
@@ -46,11 +47,7 @@ export default function BooksPage() {
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef(null);
 
-  useEffect(() => {
-    loadBooks();
-  }, []);
-
-  async function loadBooks() {
+  const loadBooks = useCallback(async () => {
     setLoading(true);
     try {
       const res = await adminApi.getBooks();
@@ -89,7 +86,11 @@ export default function BooksPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [showToast]);
+
+  useEffect(() => {
+    loadBooks();
+  }, [loadBooks]);
 
   // --- Duplicate ISBN check ---
   function checkDuplicateISBN(isbn, excludeId = null) {
@@ -263,7 +264,7 @@ export default function BooksPage() {
         id="books-table"
         columns={[
           { header: 'ISBN', accessor: (r) => r.isbn || r.id || '', render: (r) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)' }}>{r.isbn || r.id?.substring(0, 8)}</span> },
-          { header: 'Cover', accessor: 'title', render: (r) => r.cover_image ? <img src={r.cover_image} alt={r.title} style={{ width: 36, height: 48, objectFit: 'cover', borderRadius: 4 }} /> : <span style={{ color: 'var(--text-muted)' }}>📕</span> },
+          { header: 'Cover', accessor: 'title', render: (r) => r.cover_image ? <Image src={r.cover_image} alt={r.title} width={36} height={48} unoptimized style={{ width: 36, height: 48, objectFit: 'cover', borderRadius: 4 }} /> : <span style={{ color: 'var(--text-muted)' }}>📕</span> },
           { header: 'Title', accessor: 'title', render: (r) => <strong>{r.title}</strong> },
           { header: 'Author', accessor: 'author', render: (r) => r.author || '—' },
           { header: 'Genre', accessor: 'genre', render: (r) => r.genre ? <span className="chip">{r.genre}</span> : '—' },

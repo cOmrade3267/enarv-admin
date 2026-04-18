@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import DataTable from '@/components/DataTable';
 import StatusBadge from '@/components/StatusBadge';
 import Modal from '@/components/Modal';
@@ -45,8 +45,6 @@ export default function ClubsPage() {
   const [transferModal, setTransferModal] = useState(null);
   const [newOwnerId, setNewOwnerId] = useState('');
 
-  useEffect(() => { loadClubs(); }, []);
-
   function unwrapResponse(payload, key) {
     if (Array.isArray(payload)) return payload;
     if (!payload || typeof payload !== 'object') return key ? [] : {};
@@ -66,7 +64,7 @@ export default function ClubsPage() {
     return payload.data || payload.result || payload.payload || payload;
   }
 
-  async function loadClubs() {
+  const loadClubs = useCallback(async () => {
     try {
       const res = await adminApi.getClubs();
       const list = unwrapResponse(res, 'clubs');
@@ -137,7 +135,9 @@ export default function ClubsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [showToast]);
+
+  useEffect(() => { loadClubs(); }, [loadClubs]);
 
   async function handleCreateClub() {
     try {

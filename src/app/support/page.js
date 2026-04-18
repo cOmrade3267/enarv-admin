@@ -41,7 +41,7 @@ export default function SupportPage() {
         setTickets([]);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [showToast]);
 
   const filtered = filter === 'all' ? tickets : tickets.filter(t => t.status === filter);
 
