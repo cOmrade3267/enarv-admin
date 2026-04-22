@@ -12,7 +12,7 @@ export default function AdminLayoutShell({ children }) {
   const [authorized, setAuthorized] = useState(false);
   const [checking, setChecking] = useState(true);
 
-  const isLoginPage = pathname === '/login' || pathname === '/';
+  const isLoginPage = pathname === '/login' || pathname === '/login/' || pathname === '/';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
