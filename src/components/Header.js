@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { getAdminUser, clearTokens } from '@/lib/api';
-import { useRouter } from 'next/navigation';
 
 const pageTitles = {
   '/dashboard': { title: 'Dashboard', subtitle: 'Platform overview at a glance' },
@@ -22,7 +22,12 @@ const pageTitles = {
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const user = getAdminUser();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(getAdminUser());
+  }, []);
+
   const page = pageTitles[pathname] || pageTitles[Object.keys(pageTitles).find(k => pathname?.startsWith(k))] || { title: 'Admin', subtitle: '' };
 
   const handleLogout = () => {
