@@ -70,12 +70,26 @@ export default function SettingsPage() {
   async function handleSave(e) {
     e.preventDefault();
     setSaving(true);
+    let errorOccurred = false;
     try {
       const entries = Object.entries(settings);
       for (const [key, value] of entries) {
-        await adminApi.updateSettings({ key: keyMap[key] || key, value });
+        try {
+          if (key === 'maintenanceMode') {
+            await adminApi.toggleKillSwitch(value);
+          } else {
+            await adminApi.updateSettings({ key: keyMap[key] || key, value });
+          }
+        } catch (err) {
+          console.error(`Failed to save setting ${key}:`, err);
+          errorOccurred = true;
+        }
       }
-      showToast('Settings saved!');
+      if (errorOccurred) {
+        showToast('Some settings failed to save. Check console for details.', 'warning');
+      } else {
+        showToast('Settings saved!');
+      }
     } catch (err) {
       showToast(formatAdminApiError(err) || 'Failed to save settings', 'error');
     }

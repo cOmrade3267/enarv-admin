@@ -580,9 +580,12 @@ function toAdminBulkBookEntry(data) {
   else if (data.total_pages !== undefined) entry.page_count = num(data.total_pages);
   else if (data.pages !== undefined) entry.page_count = num(data.pages);
 
-  // Author: backend may expect authors array or author string
-  if (data.author) entry.author_name = String(data.author);
-  if (data.authors) entry.authors = data.authors;
+  // Author: backend expects authors array
+  if (data.authors) {
+    entry.authors = Array.isArray(data.authors) ? data.authors : [{ name: String(data.authors) }];
+  } else if (data.author) {
+    entry.authors = [{ name: String(data.author) }];
+  }
 
   return entry;
 }

@@ -1,12 +1,13 @@
 'use client';
 
 import { Suspense, useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import StatusBadge from '@/components/StatusBadge';
 import DataTable from '@/components/DataTable';
 import { adminApi } from '@/lib/api';
 
 function UserDetailContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const userId = searchParams.get('id');
   const [user, setUser] = useState(null);
@@ -61,6 +62,9 @@ function UserDetailContent() {
   const tabs = ['posts', 'comments', 'clubs', 'orders', 'referrals'];
   return (
     <div id="user-detail-page">
+      <div className="back-nav" onClick={() => router.back()} id="back-to-users">
+        <span>←</span> Back to Users
+      </div>
       <div className="page-header"><div><h1 className="page-title">{user.full_name}</h1><p className="page-subtitle">@{user.username}</p></div><StatusBadge status={user.status} /></div>
       <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
         <div className="user-profile-header">
