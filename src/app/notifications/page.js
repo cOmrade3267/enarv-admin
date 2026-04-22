@@ -11,6 +11,8 @@ export default function NotificationsPage() {
   const showToast = useToast();
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [link, setLink] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [targetType, setTargetType] = useState('all');
   const [targetIds, setTargetIds] = useState('');
   const [sending, setSending] = useState(false);
@@ -44,23 +46,31 @@ export default function NotificationsPage() {
     }
     setSending(true);
     let status = 'sent';
-    let recipientCount = targetType === 'all' ? 12847 : '—';
+    let recipientCount = targetType === 'all' ? 0 : 1; 
     let errorMsg = null;
     try {
-      const payload = { title, message, targetGroup: targetType };
-      if (targetType === 'specific_users' && targetIds.trim()) {
-        payload.specificUserId = targetIds.split(',').map(s => s.trim()).filter(Boolean)[0];
+      const payload = { 
+        title, 
+        message, 
+        targetGroup: targetType === 'specific' ? 'specific_users' : (targetType === 'club' ? 'club_members' : 'all'),
+        link: link.trim() || undefined,
+        image_url: imageUrl.trim() || undefined
+      };
+      
+      if (targetType === 'specific' && targetIds.trim()) {
+        payload.specificUserId = targetIds.trim();
       }
-      if (targetType === 'club_members' && targetIds.trim()) {
-        payload.clubId = targetIds.split(',').map(s => s.trim()).filter(Boolean)[0];
+      if (targetType === 'club' && targetIds.trim()) {
+        payload.clubId = targetIds.trim();
       }
+      
       const res = await adminApi.sendNotification(payload);
       recipientCount = res.recipients || recipientCount;
       showToast('Notification sent!');
     } catch (err) {
       status = 'failed';
       errorMsg = err.message || 'Send failed';
-      showToast('Notification send failed', 'error');
+      showToast(err.message || 'Notification send failed', 'error');
     }
     const entry = {
       id: Date.now(), title, message, targetType, status,
@@ -73,7 +83,7 @@ export default function NotificationsPage() {
       if (typeof window !== 'undefined') localStorage.setItem(LOCAL_HISTORY_KEY, JSON.stringify(updated));
       return updated;
     });
-    setTitle(''); setMessage(''); setTargetIds('');
+    setTitle(''); setMessage(''); setTargetIds(''); setLink(''); setImageUrl('');
     setSending(false);
   }
 
@@ -98,6 +108,18 @@ export default function NotificationsPage() {
               <label className="form-label">Message</label>
               <textarea className="form-textarea" value={message} onChange={e => setMessage(e.target.value)} placeholder="Notification message..." id="notif-message" />
             </div>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Action Link (Optional)</label>
+                <input className="form-input" value={link} onChange={e => setLink(e.target.value)} placeholder="https://enarv.com/..." />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Image URL (Optional)</label>
+                <input className="form-input" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://..." />
+              </div>
+            </div>
+
             <div className="form-group">
               <label className="form-label">Target Audience</label>
               <select className="form-select" value={targetType} onChange={e => setTargetType(e.target.value)} id="notif-target">
@@ -117,6 +139,7 @@ export default function NotificationsPage() {
             </button>
           </form>
         </div>
+
 
         <div className="card">
           <div className="card-header"><h3 className="card-title">Notification History</h3></div>
