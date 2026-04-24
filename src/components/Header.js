@@ -19,7 +19,7 @@ const pageTitles = {
   '/settings': { title: 'System Settings', subtitle: 'Platform configuration' },
 };
 
-export default function Header() {
+export default function Header({ onMenuToggle }) {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -37,7 +37,21 @@ export default function Header() {
 
   return (
     <header className="header" id="header">
-      <div className="header-left">
+      <div className="header-left" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={onMenuToggle}
+          style={{ 
+            background: 'transparent', border: 'none', color: 'var(--text-primary)', 
+            cursor: 'pointer', padding: '4px'
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <div>
           <div className="header-title">{page.title}</div>
           {page.subtitle && <div className="header-subtitle">{page.subtitle}</div>}

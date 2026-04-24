@@ -11,6 +11,7 @@ export default function AdminLayoutShell({ children }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLoginPage = pathname === '/login' || pathname === '/login/' || pathname === '/';
 
@@ -43,11 +44,21 @@ export default function AdminLayoutShell({ children }) {
       ) : (
         authorized && (
           <div className="admin-layout">
-            <Sidebar />
+            <Sidebar isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
             <div className="admin-main">
-              <Header />
+              <Header onMenuToggle={() => setMobileMenuOpen(p => !p)} />
               <main className="admin-content">{children}</main>
             </div>
+            {mobileMenuOpen && (
+              <div 
+                className="mobile-overlay" 
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                  background: 'rgba(0,0,0,0.5)', zIndex: 90
+                }}
+              />
+            )}
           </div>
         )
       )}

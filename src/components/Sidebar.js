@@ -128,11 +128,11 @@ const navSections = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, setIsOpen }) {
   const pathname = usePathname();
 
   return (
-    <aside className="sidebar" id="sidebar">
+    <aside className={`sidebar ${isOpen ? 'open' : ''}`} id="sidebar">
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">E</div>
         <span className="sidebar-logo-text">ENARV</span>
@@ -148,6 +148,7 @@ export default function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setIsOpen && setIsOpen(false)}
                   className={`sidebar-link ${isActive ? 'active' : ''}`}
                   id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                 >

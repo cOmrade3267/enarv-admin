@@ -1216,8 +1216,15 @@ a:hover {
   font-size: var(--font-md);
 }
 
+.mobile-menu-toggle {
+  display: none;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
   .sidebar {
     transform: translateX(-100%);
   }
