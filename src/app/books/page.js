@@ -227,10 +227,12 @@ export default function BooksPage() {
   function updateField(key, value) {
     setForm((p) => {
       const next = { ...p, [key]: value };
-      if (key === 'mrp' || key === 'price') {
-        const m = parseRupeesInput(key === 'mrp' ? value : next.mrp);
-        const pr = parseRupeesInput(key === 'price' ? value : next.price);
-        if (pr > m && m >= 0) {
+      // Only auto-cap selling price when MRP is changed to a lower value than current price
+      // Do NOT interfere when the user is actively typing in the price field
+      if (key === 'mrp') {
+        const m = parseRupeesInput(value);
+        const pr = parseRupeesInput(next.price);
+        if (pr > m && m > 0) {
           next.price = String(m);
         }
       }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function DataTable({
   columns,
@@ -12,7 +12,7 @@ export default function DataTable({
   pageSize = 15,
   onSearch,
   totalCount,
-  currentPage = 1,
+  currentPage: externalPage,
   onPageChange,
   loading = false,
   emptyMessage = 'No data found',
@@ -21,6 +21,19 @@ export default function DataTable({
   id = 'data-table',
 }) {
   const [search, setSearch] = useState('');
+  const [internalPage, setInternalPage] = useState(1);
+
+  // Use external page control if provided, otherwise use internal state
+  const isExternalPagination = typeof onPageChange === 'function';
+  const currentPage = isExternalPagination ? (externalPage || 1) : internalPage;
+  const setPage = isExternalPagination ? onPageChange : setInternalPage;
+
+  // Reset internal page when search changes or data changes significantly
+  useEffect(() => {
+    if (!isExternalPagination) {
+      setInternalPage(1);
+    }
+  }, [search, isExternalPagination]);
 
   const q = (search || '').trim().toLowerCase();
   const filteredData = onSearch
@@ -37,7 +50,7 @@ export default function DataTable({
   const total = totalCount || filteredData.length;
   const totalPages = Math.ceil(total / pageSize);
   const startIdx = (currentPage - 1) * pageSize;
-  const pageData = onPageChange ? filteredData : filteredData.slice(startIdx, startIdx + pageSize);
+  const pageData = isExternalPagination ? filteredData : filteredData.slice(startIdx, startIdx + pageSize);
 
   const handleSearch = (e) => {
     const val = e.target.value;
@@ -118,7 +131,7 @@ export default function DataTable({
             <button
               className="btn btn-ghost btn-sm"
               disabled={currentPage <= 1}
-              onClick={() => onPageChange ? onPageChange(currentPage - 1) : null}
+              onClick={() => setPage(currentPage - 1)}
               id={`${id}-prev`}
             >
               ← Prev
@@ -129,7 +142,7 @@ export default function DataTable({
             <button
               className="btn btn-ghost btn-sm"
               disabled={currentPage >= totalPages}
-              onClick={() => onPageChange ? onPageChange(currentPage + 1) : null}
+              onClick={() => setPage(currentPage + 1)}
               id={`${id}-next`}
             >
               Next →
