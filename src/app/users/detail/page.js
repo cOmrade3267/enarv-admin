@@ -62,15 +62,17 @@ function UserDetailContent() {
   const tabs = ['posts', 'comments', 'clubs', 'orders', 'referrals'];
   return (
     <div id="user-detail-page">
-      <div className="back-nav" onClick={() => router.back()} id="back-to-users">
+      <div className="back-nav" onClick={() => router.back()} id="back-to-users" style={{ marginBottom: 'var(--space-4)' }}>
         <span>←</span> Back to Users
       </div>
-      <div className="page-header"><div><h1 className="page-title">{user.full_name}</h1><p className="page-subtitle">@{user.username}</p></div><StatusBadge status={user.status} /></div>
       <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
         <div className="user-profile-header">
           <div className="user-avatar-lg">{user.full_name?.charAt(0)}</div>
           <div style={{ flex: 1 }}>
-            <h2 style={{ fontSize: 'var(--font-xl)', fontWeight: 600 }}>{user.full_name}</h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+              <h2 style={{ fontSize: 'var(--font-xl)', fontWeight: 600, margin: 0 }}>{user.full_name}</h2>
+              <StatusBadge status={user.status} />
+            </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-base)' }}>{user.email}</p>
             {user.bio && <p style={{ color: 'var(--text-muted)', fontSize: 'var(--font-sm)', marginTop: 'var(--space-2)' }}>{user.bio}</p>}
             <div className="user-stats">

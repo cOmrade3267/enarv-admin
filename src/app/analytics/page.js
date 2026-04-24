@@ -135,14 +135,7 @@ export default function AnalyticsPage() {
 
   return (
     <div id="analytics-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Analytics</h1>
-          <p className="page-subtitle">
-            Last 30 days from live API data (users, orders, feed posts, sampled comments, your referrals).
-          </p>
-        </div>
-      </div>
+
 
       <div className="content-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
         <AnalyticsChart

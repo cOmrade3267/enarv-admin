@@ -438,7 +438,7 @@ a:hover {
 }
 
 .data-table th {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-4);
   text-align: left;
   font-size: var(--font-xs);
   font-weight: 600;
@@ -451,7 +451,7 @@ a:hover {
 }
 
 .data-table td {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-4);
   font-size: var(--font-base);
   border-bottom: 1px solid var(--border-subtle);
   white-space: nowrap;
@@ -947,7 +947,7 @@ a:hover {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--space-3) 0;
+  padding: var(--space-2) 0;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -958,7 +958,7 @@ a:hover {
 .activity-avatar {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   background: var(--accent-primary-glow);
   display: flex;
   align-items: center;

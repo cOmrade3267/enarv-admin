@@ -100,9 +100,6 @@ export default function SettingsPage() {
 
   return (
     <div id="settings-page">
-      <div className="page-header">
-        <div><h1 className="page-title">System Settings</h1><p className="page-subtitle">Platform configuration — adjustable without code changes</p></div>
-      </div>
       {loadBanner ? (
         <div
           className="card"

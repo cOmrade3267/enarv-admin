@@ -255,11 +255,8 @@ export default function ClubsPage() {
 
   return (
     <div id="clubs-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Clubs</h1>
-          <p className="page-subtitle">Manage community clubs</p>
-        </div>
+      <div className="page-actions-bar">
+        <div />
         <button className="btn btn-primary" onClick={() => setShowCreateModal(true)} id="create-club-btn">
           + Create Official Club
         </button>

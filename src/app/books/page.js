@@ -247,11 +247,8 @@ export default function BooksPage() {
 
   return (
     <div id="books-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Books Inventory</h1>
-          <p className="page-subtitle">Manage the book catalog</p>
-        </div>
+      <div className="page-actions-bar">
+        <div />
         <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
           <button className="btn btn-secondary" onClick={() => setBulkModal(true)} id="bulk-upload-btn">
             📄 Bulk Upload CSV

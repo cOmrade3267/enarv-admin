@@ -388,12 +388,6 @@ export default function OrdersPage() {
 
   return (
     <div id="orders-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Orders</h1>
-          <p className="page-subtitle">Manage e-commerce transactions</p>
-        </div>
-      </div>
 
       <DataTable
         id="orders-table"

@@ -110,17 +110,17 @@ export default function DashboardPage() {
       {error && <div className="demo-badge"><span>⚠️ {error}</span></div>}
       {/* Metric Cards */}
       <div className="metrics-grid">
-        <MetricCard label="Total Users" value={data.totalUsers?.toLocaleString()} color="var(--metric-users)" />
-        <MetricCard label="New Users Today" value={data.usersToday} color="var(--metric-users)" />
-        <MetricCard label="Users This Week" value={data.usersThisWeek} color="var(--metric-users)" />
-        <MetricCard label="Posts Today" value={data.postsToday} color="var(--metric-engagement)" />
-        <MetricCard label="Comments Today" value={data.commentsToday?.toLocaleString()} color="var(--metric-engagement)" />
-        <MetricCard label="Active Users" value={data.activeUsersToday?.toLocaleString()} color="var(--metric-engagement)" />
-        <MetricCard label="Total Clubs" value={data.totalClubs} color="var(--metric-clubs)" />
-        <MetricCard label="Active Clubs" value={data.activeClubs} color="var(--metric-clubs)" />
-        <MetricCard label="Orders Today" value={data.ordersToday} color="var(--metric-orders)" />
-        <MetricCard label="Revenue Today" value={`₹${(data.revenueToday || 0).toLocaleString()}`} color="var(--metric-revenue)" />
-        <MetricCard label="Referrals Today" value={data.referralsToday} color="var(--metric-referrals)" />
+        <MetricCard label="Total Users" value={data.totalUsers?.toLocaleString()} icon="👥" color="var(--metric-users)" />
+        <MetricCard label="New Users Today" value={data.usersToday} icon="🆕" color="var(--metric-users)" />
+        <MetricCard label="Users This Week" value={data.usersThisWeek} icon="📅" color="var(--metric-users)" />
+        <MetricCard label="Posts Today" value={data.postsToday} icon="✍️" color="var(--metric-engagement)" />
+        <MetricCard label="Comments Today" value={data.commentsToday?.toLocaleString()} icon="💬" color="var(--metric-engagement)" />
+        <MetricCard label="Active Users" value={data.activeUsersToday?.toLocaleString()} icon="🟢" color="var(--metric-engagement)" />
+        <MetricCard label="Total Clubs" value={data.totalClubs} icon="🏛️" color="var(--metric-clubs)" />
+        <MetricCard label="Active Clubs" value={data.activeClubs} icon="⚡" color="var(--metric-clubs)" />
+        <MetricCard label="Orders Today" value={data.ordersToday} icon="🛒" color="var(--metric-orders)" />
+        <MetricCard label="Revenue Today" value={`₹${(data.revenueToday || 0).toLocaleString()}`} icon="💰" color="var(--metric-revenue)" />
+        <MetricCard label="Referrals Today" value={data.referralsToday} icon="🔗" color="var(--metric-referrals)" />
       </div>
 
       {/* Activity Feeds */}
@@ -131,7 +131,7 @@ export default function DashboardPage() {
             <h3 className="card-title">Recent Signups</h3>
             <span className="chip">{data.usersToday} today</span>
           </div>
-          {data.latestUsers?.map((user) => (
+          {data.latestUsers?.length > 0 ? data.latestUsers.map((user) => (
             <div className="activity-item" key={user.id}>
               <div className="activity-avatar">{user.full_name?.charAt(0) || 'U'}</div>
               <div className="activity-content">
@@ -141,7 +141,9 @@ export default function DashboardPage() {
                 <div className="activity-time">@{user.username} · {timeAgo(user.created_at)}</div>
               </div>
             </div>
-          ))}
+          )) : (
+            <div style={{ padding: 'var(--space-6) var(--space-4)', textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-sm)' }}>No recent signups</div>
+          )}
         </div>
 
         {/* Latest Posts */}
@@ -150,17 +152,19 @@ export default function DashboardPage() {
             <h3 className="card-title">Recent Posts</h3>
             <span className="chip">{data.postsToday} today</span>
           </div>
-          {data.latestPosts?.map((post) => (
+          {data.latestPosts?.length > 0 ? data.latestPosts.map((post) => (
             <div className="activity-item" key={post.id}>
-              <div className="activity-avatar">P</div>
+              <div className="activity-avatar" style={{ background: 'rgba(139,92,246,0.15)', color: 'var(--accent-secondary)' }}>✍</div>
               <div className="activity-content">
                 <div className="activity-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {post.title || post.content?.substring(0, 60)}
+                  {post.title || post.content?.substring(0, 60) || 'Untitled post'}
                 </div>
-                <div className="activity-time">@{post.username} · {post.likes_count} Likes · {timeAgo(post.created_at)}</div>
+                <div className="activity-time">@{post.username} · {post.likes_count}♥ · {timeAgo(post.created_at)}</div>
               </div>
             </div>
-          ))}
+          )) : (
+            <div style={{ padding: 'var(--space-6) var(--space-4)', textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-sm)' }}>No recent posts</div>
+          )}
         </div>
 
         {/* Latest Orders */}
@@ -169,20 +173,24 @@ export default function DashboardPage() {
             <h3 className="card-title">Recent Orders</h3>
             <span className="chip">{data.ordersToday} today</span>
           </div>
-          {data.latestOrders?.map((order) => (
+          {data.latestOrders?.length > 0 ? data.latestOrders.map((order) => (
             <div className="activity-item" key={order.id}>
-              <div className="activity-avatar">O</div>
+              <div className="activity-avatar" style={{ background: 'rgba(245,158,11,0.15)', color: 'var(--status-warning)' }}>🛒</div>
               <div className="activity-content">
                 <div className="activity-text">
-                  <strong>{order.id}</strong> — ₹{order.amount?.toLocaleString()}
+                  <strong style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)' }}>#{order.id?.substring(0, 8)}</strong>
+                  <span style={{ margin: '0 6px', color: 'var(--text-muted)' }}>·</span>
+                  <span style={{ color: 'var(--status-success)', fontWeight: 600 }}>₹{order.amount?.toLocaleString()}</span>
                 </div>
                 <div className="activity-time" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  @{order.user} · {timeAgo(order.created_at)}
+                  {order.user && order.user !== '—' ? `@${order.user}` : 'Guest'} · {timeAgo(order.created_at)}
                   <StatusBadge status={order.status} />
                 </div>
               </div>
             </div>
-          ))}
+          )) : (
+            <div style={{ padding: 'var(--space-6) var(--space-4)', textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-sm)' }}>No recent orders</div>
+          )}
         </div>
       </div>
     </div>

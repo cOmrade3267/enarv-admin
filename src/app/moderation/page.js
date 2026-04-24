@@ -165,14 +165,7 @@ export default function ModerationPage() {
 
   return (
     <div id="moderation-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Content Moderation</h1>
-          <p className="page-subtitle">Review and moderate platform content</p>
-        </div>
-      </div>
-
-      <div className="tabs">
+      <div className="tabs" style={{ marginTop: 0 }}>
         {tabs.map(tab => (
           <button 
             key={tab} 
@@ -189,14 +182,13 @@ export default function ModerationPage() {
 
       {activeTab === 'posts' && (
         <DataTable 
-          id="mod-posts" 
-          columns={[
-            { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)' } },
-            { header: 'Content', accessor: 'title', render: (r) => <span style={{ color: r.is_hidden ? 'var(--text-muted)' : 'var(--text-primary)' }}>{r.title || '(no title)'} {r.is_hidden && '🙈 Hidden'}</span> },
+          id="mod-posts"           columns={[
+            { header: 'ID', accessor: 'id', render: (r) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' }}>{r.id?.substring(0, 8)}</span> },
+            { header: 'Content', accessor: 'title', render: (r) => <span style={{ color: r.is_hidden ? 'var(--text-muted)' : 'var(--text-primary)', maxWidth: '280px', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.content || r.title || '(no content)'} {r.is_hidden && '🙈'}</span> },
             { header: 'Author', accessor: 'author', render: (r) => `@${r.author || 'system'}` },
             { header: 'Club', accessor: 'club' },
-            { header: 'Engagement', accessor: (r) => `${r.likes_count} likes, ${r.comments_count} comments`, render: (r) => `${r.likes_count}♥ ${r.comments_count}💬` },
-            { header: 'Date', accessor: 'created_at', render: (r) => (r.created_at ? new Date(r.created_at).toLocaleDateString() : 'Not provided') },
+            { header: 'Engagement', accessor: (r) => `${r.likes_count} likes, ${r.comments_count} comments`, render: (r) => <span>{r.likes_count}♥ {r.comments_count}💬</span> },
+            { header: 'Date', accessor: 'created_at', render: (r) => (r.created_at ? new Date(r.created_at).toLocaleDateString() : '—') },
           ]} 
           data={posts} 
           loading={loading} 
@@ -217,8 +209,8 @@ export default function ModerationPage() {
         <DataTable 
           id="mod-comments" 
           columns={[
-            { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)' } },
-            { header: 'Content', accessor: 'content' },
+            { header: 'ID', accessor: 'id', render: (r) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' }}>{r.id?.substring(0, 8)}</span> },
+            { header: 'Content', accessor: 'content', render: (r) => <span style={{ maxWidth: '280px', display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.content || '—'}</span> },
             { header: 'Author', accessor: 'author', render: (r) => `@${r.author || 'unknown'}` },
             { header: 'On Post', accessor: 'post_title' },
             { header: 'Date', accessor: 'created_at', render: (r) => (r.created_at ? new Date(r.created_at).toLocaleDateString() : 'Not provided') },
@@ -242,7 +234,7 @@ export default function ModerationPage() {
         <DataTable 
           id="mod-stories" 
           columns={[
-            { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)' } },
+            { header: 'ID', accessor: 'id', render: (r) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' }}>{r.id?.substring(0, 8)}</span> },
             { header: 'Author', accessor: 'author', render: (r) => `@${r.author || 'unknown'}` },
             { header: 'Type', accessor: 'media_type' },
             { header: 'Created', accessor: 'created_at', render: (r) => (r.created_at ? new Date(r.created_at).toLocaleString() : 'Not provided') },
@@ -259,7 +251,7 @@ export default function ModerationPage() {
         <DataTable 
           id="mod-reports" 
           columns={[
-            { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)' } },
+            { header: 'ID', accessor: 'id', render: (r) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' }}>{r.id?.substring(0, 8)}</span> },
             { header: 'Reporter', accessor: 'reporter', render: (r) => `@${r.reporter || 'unknown'}` },
             { header: 'Content', accessor: 'reported_content' },
             { header: 'Reason', accessor: 'reason', render: (r) => <span className="chip">{r.reason}</span> },

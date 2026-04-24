@@ -9,7 +9,7 @@ import { adminApi, formatAdminApiError } from '@/lib/api';
 import Link from 'next/link';
 
 const columns = [
-  { header: 'ID', accessor: 'id', cellStyle: { fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' } },
+  { header: 'ID', accessor: 'id', render: (row) => <span style={{ fontFamily: 'monospace', fontSize: 'var(--font-xs)', color: 'var(--text-muted)' }}>{row.id?.substring(0, 8)}</span> },
   { header: 'Name', render: (row) => (
     <Link href={`/users/detail?id=${encodeURIComponent(row.id)}`} style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
       {row.full_name}
@@ -129,12 +129,8 @@ export default function UsersPage() {
   return (
     <div id="users-page">
       {error && <div className="demo-badge"><span>⚠️ {error}</span></div>}
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Users</h1>
-          <p className="page-subtitle">Manage all registered users on the platform</p>
-        </div>
-        <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+      <div className="page-actions-bar">
+        <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
           <div className="search-input-wrapper" style={{ width: '300px' }}>
             <span className="search-icon">🔍</span>
             <input
@@ -152,6 +148,7 @@ export default function UsersPage() {
 
       <DataTable
         id="users-table"
+        searchable={false}
         columns={[
           ...columns,
           { header: 'Role', render: (row) => {

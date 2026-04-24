@@ -77,8 +77,8 @@ export default function SupportPage() {
 
   return (
     <div id="support-page">
-      <div className="page-header">
-        <div><h1 className="page-title">Support Tickets</h1><p className="page-subtitle">Manage customer support</p></div>
+      <div className="page-actions-bar">
+        <div />
         <div style={{ display: 'flex', gap: '6px' }}>
           {['all','open','in_progress','closed'].map(s => (
             <button key={s} className={`btn btn-sm ${filter===s?'btn-primary':'btn-ghost'}`} onClick={() => setFilter(s)}>{s==='all'?'All':s.replace(/_/g,' ')}</button>

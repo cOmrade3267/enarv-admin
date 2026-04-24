@@ -106,12 +106,6 @@ export default function ReferralsPage() {
 
   return (
     <div id="referrals-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Referrals</h1>
-          <p className="page-subtitle">Track platform-wide referral activity</p>
-        </div>
-      </div>
 
       <div className="two-col" style={{ marginBottom: 'var(--space-6)' }}>
         {/* Leaderboard */}

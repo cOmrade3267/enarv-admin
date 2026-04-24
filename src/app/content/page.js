@@ -174,10 +174,7 @@ export default function ContentPage() {
 
   return (
     <div id="content-page">
-      <div className="page-header">
-        <div><h1 className="page-title">Content Manager</h1><p className="page-subtitle">Manage blogs, limited time offers & featured authors</p></div>
-      </div>
-      <div className="tabs">
+      <div className="tabs" style={{ marginTop: 0 }}>
         {tabs.map(t => (
           <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
             {t === 'blogs' ? '📝 Blogs' : t === 'limited-time-offers' ? '⏰ Limited Time Offers' : '✨ Featured Authors'}

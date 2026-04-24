@@ -89,12 +89,6 @@ export default function NotificationsPage() {
 
   return (
     <div id="notifications-page">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Notifications</h1>
-          <p className="page-subtitle">Send push notifications via FCM</p>
-        </div>
-      </div>
 
       <div className="two-col">
         <div className="card">
